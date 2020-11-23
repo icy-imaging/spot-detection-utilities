@@ -10,7 +10,7 @@
         <version>1.0.4</version>
     </parent>
 
-    <artifactId>icy-detection-result</artifactId>
+    <artifactId>detection-result</artifactId>
     <version>1.0.1</version>
 
     <packaging>jar</packaging>
