@@ -5,53 +5,17 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-		<artifactId>pom-icy</artifactId>
         <groupId>org.bioimageanalysis.icy</groupId>
-        <version>2.0.0</version>
+		<artifactId>pom-icy</artifactId>
+        <version>2.2.0</version>
     </parent>
 
     <artifactId>spot-detection-utilities</artifactId>
-    <version>1.1.6</version>
+    <version>1.1.7</version>
 
     <packaging>jar</packaging>
 
     <name>Detection Utilities</name>
-	
-	<profiles>
-		<profile>
-			<id>icy-plugin</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-		</profile>
-	</profiles>
-	
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<configuration>
-					<overview>${basedir}/src/main/javadoc/overview.html</overview>
-					<stylesheetfile>${basedir}/src/main/javadoc/java7doc.css</stylesheetfile>
-					<!-- disable javadoc errors for substance library (too many, and we don't care really) -->
-					<additionalOptions>
-						<additionalOption>-Xdoclint:none</additionalOption>
-					</additionalOptions>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
-    
-	<!-- List of project's dependencies -->
-    <dependencies>
-        <!-- The core of Icy -->
-        <dependency>
-            <groupId>org.bioimageanalysis.icy</groupId>
-            <artifactId>icy-kernel</artifactId>
-			<version>${icy-kernel.version}</version>
-        </dependency>
-	</dependencies>
 	
     <repositories>
         <repository>
