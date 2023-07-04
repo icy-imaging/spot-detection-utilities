@@ -1,3 +1,21 @@
+/*
+ * Copyright (c) 2010-2023. Institut Pasteur.
+ *
+ * This file is part of Icy.
+ * Icy is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Icy is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Icy. If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package plugins.nchenouard.spot;
 
 import icy.plugin.abstract_.Plugin;
@@ -42,7 +60,7 @@ public class DetectionResult extends Plugin {
     private void computeNumberOfDetection() {
 
         detectionNumber = 0;
-        for (int index : results.keySet()) {
+        for (final int index : results.keySet()) {
             detectionNumber += results.get(index).size();
         }
         numberOfDetectionShouldBeRecomputed = false;
@@ -53,10 +71,11 @@ public class DetectionResult extends Plugin {
         return sourceSequence;
     }
 
-    public void setSequence(Sequence seq) {
+    public void setSequence(final Sequence seq) {
         this.sourceSequence = seq;
     }
 
+    @Override
     protected void finalize() throws Throwable {
         results.clear();
         super.finalize();
@@ -67,38 +86,33 @@ public class DetectionResult extends Plugin {
         numberOfDetectionShouldBeRecomputed = true;
     }
 
-    public DetectionResult(TreeMap<Integer, Vector<Spot>> results) {
+    public DetectionResult(final TreeMap<Integer, Vector<Spot>> results) {
         this.results = results;
         numberOfDetectionShouldBeRecomputed = true;
     }
 
-    public void addDetection(int t, Spot s) {
-        Vector<Spot> spots;
-        if (results.containsKey(Integer.valueOf(t)))
-            spots = results.get(Integer.valueOf(t));
+    public void addDetection(final int t, final Spot s) {
+        final Vector<Spot> spots;
+        if (results.containsKey(t))
+            spots = results.get(t);
         else {
             spots = new Vector<>(1);
-            results.put(Integer.valueOf(t), spots);
+            results.put(t, spots);
         }
         spots.add(s);
         numberOfDetectionShouldBeRecomputed = true;
     }
 
-    public void setResult(int t, Vector<Spot> detections) {
-        results.put(Integer.valueOf(t), new Vector<>(detections));
+    public void setResult(final int t, final Vector<Spot> detections) {
+        results.put(t, new Vector<>(detections));
         numberOfDetectionShouldBeRecomputed = true;
     }
 
     /**
      * @return a COPY of the detection vector at time t
      */
-    public Vector<Spot> getDetectionsAtT(int t) {
-        Vector<Spot> spots = results.get(t);
-        if (spots == null) {
-            spots = new Vector<>();
-            results.put(Integer.valueOf(t), spots);
-        }
-        return spots;
+    public Vector<Spot> getDetectionsAtT(final int t) {
+        return results.computeIfAbsent(t, k -> new Vector<>());
     }
 
     /**
@@ -109,22 +123,22 @@ public class DetectionResult extends Plugin {
     }
 
     public DetectionResult copy() {
-        TreeMap<Integer, Vector<Spot>> copy = new TreeMap<>();
-        for (int key : results.keySet()) {
-            @SuppressWarnings("unchecked")
-            Vector<Spot> spotVectorClone = (Vector<Spot>) results.get(key).clone();
+        final TreeMap<Integer, Vector<Spot>> copy = new TreeMap<>();
+        for (final int key : results.keySet()) {
+            @SuppressWarnings("unchecked") final Vector<Spot> spotVectorClone = (Vector<Spot>) results.get(key).clone();
             copy.put(key, spotVectorClone);
         }
-        DetectionResult dr = new DetectionResult(copy);
+        final DetectionResult dr = new DetectionResult(copy);
         dr.setName(name);
         return dr;
     }
 
+    @Override
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 

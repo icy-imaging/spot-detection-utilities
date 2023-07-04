@@ -1,21 +1,21 @@
 /*
- * Copyright 2010-2023 Institut Pasteur.
+ * Copyright (c) 2010-2023. Institut Pasteur.
  *
- * This file is part of ICY.
- *
- * ICY is free software: you can redistribute it and/or modify
+ * This file is part of Icy.
+ * Icy is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * ICY is distributed in the hope that it will be useful,
+ * Icy is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with ICY. If not, see <https://www.gnu.org/licenses/>.
+ * along with Icy. If not, see <https://www.gnu.org/licenses/>.
  */
+
 package plugins.nchenouard.spot;
 
 import icy.file.xml.XMLPersistent;
@@ -23,12 +23,11 @@ import icy.painter.Overlay;
 import icy.system.IcyExceptionHandler;
 import icy.util.ClassUtil;
 import icy.util.XMLUtil;
-
-import java.awt.Color;
-import java.lang.reflect.Constructor;
-
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+
+import java.awt.*;
+import java.lang.reflect.Constructor;
 
 /**
  * Detection is the basic detection class. Extends Detection to create more complete Detection.
@@ -41,7 +40,7 @@ public class Detection extends Overlay implements Cloneable, XMLPersistent {
     @Override
     public Object clone() throws CloneNotSupportedException {
 
-        Detection clone = (Detection) super.clone();
+        final Detection clone = (Detection) super.clone();
 
         clone.x = x;
         clone.y = y;
@@ -49,7 +48,6 @@ public class Detection extends Overlay implements Cloneable, XMLPersistent {
         clone.t = t;
         clone.detectionType = detectionType;
         clone.selected = selected;
-        clone.detectionEditor = detectionEditor;
         clone.enabled = enabled;
         clone.color = new Color(color.getRed(), color.getGreen(), color.getBlue());
         clone.originalColor = new Color(originalColor.getRGB());
@@ -84,22 +82,23 @@ public class Detection extends Overlay implements Cloneable, XMLPersistent {
     protected boolean selected = false;
     /**
      * Detection enabled/disable is the internal mechanism to filter track with TrackProcessor. At
-     * the start of TrackProcessor process, the enable track are all set to true. any TSP can then
+     * the start of the TrackProcessor process, the enable tracks are all set to true. Any TSP can then
      * disable it.
      */
     protected boolean enabled = true;
 
     /**
-     * This color is used each time the TrackProcessor start, as it call the detection.reset() function.
+     * This color is used each time the TrackProcessor start, as it calls the detection.reset() function.
      * This color is loaded when using an XML file.
-     * While saving, the current color of the track ( color property ) is used. So at load it will become the new originalColor.
+     * While saving, the current color of the track (color property) is used.
+     * So at loading, it will become the new originalColor.
      */
     protected Color originalColor = Color.blue;
 
     public final static int DETECTIONTYPE_REAL_DETECTION = 1;
     public final static int DETECTIONTYPE_VIRTUAL_DETECTION = 2;
 
-    public Detection(double x, double y, double z, int t) {
+    public Detection(final double x, final double y, final double z, final int t) {
         super("Detection", OverlayPriority.SHAPE_NORMAL);
         this.x = x;
         this.y = y;
@@ -117,7 +116,7 @@ public class Detection extends Overlay implements Cloneable, XMLPersistent {
         return t;
     }
 
-    public void setT(int t) {
+    public void setT(final int t) {
         this.t = t;
     }
 
@@ -125,7 +124,7 @@ public class Detection extends Overlay implements Cloneable, XMLPersistent {
         return x;
     }
 
-    public void setX(double x) {
+    public void setX(final double x) {
         this.x = x;
     }
 
@@ -133,7 +132,7 @@ public class Detection extends Overlay implements Cloneable, XMLPersistent {
         return y;
     }
 
-    public void setY(double y) {
+    public void setY(final double y) {
         this.y = y;
     }
 
@@ -141,7 +140,7 @@ public class Detection extends Overlay implements Cloneable, XMLPersistent {
         return z;
     }
 
-    public void setZ(double z) {
+    public void setZ(final double z) {
         this.z = z;
     }
 
@@ -156,7 +155,7 @@ public class Detection extends Overlay implements Cloneable, XMLPersistent {
         return detectionType;
     }
 
-    public void setDetectionType(int detectionType) {
+    public void setDetectionType(final int detectionType) {
         this.detectionType = detectionType;
     }
 
@@ -164,7 +163,7 @@ public class Detection extends Overlay implements Cloneable, XMLPersistent {
         return selected;
     }
 
-    public void setSelected(boolean selected) {
+    public void setSelected(final boolean selected) {
         this.selected = selected;
     }
 
@@ -172,7 +171,7 @@ public class Detection extends Overlay implements Cloneable, XMLPersistent {
         return color;
     }
 
-    public void setColor(Color color) {
+    public void setColor(final Color color) {
         this.color = color;
     }
 
@@ -180,31 +179,13 @@ public class Detection extends Overlay implements Cloneable, XMLPersistent {
         return enabled;
     }
 
-    public void setEnabled(boolean enabled) {
+    public void setEnabled(final boolean enabled) {
         this.enabled = enabled;
-    }
-
-    @Deprecated
-    private DetectionEditor detectionEditor = null;
-
-    @Deprecated
-    public void setExternalDetectionTools(DetectionEditor detectionEditor) {
-        this.detectionEditor = detectionEditor;
     }
 
     public void reset() {
         this.color = originalColor;
         this.setEnabled(true);
-    }
-
-    @Deprecated
-    public DetectionEditor getDetectionEditor() {
-        return detectionEditor;
-    }
-
-    @Deprecated
-    public void setDeet(DetectionEditor detectionEditor) {
-        this.detectionEditor = detectionEditor;
     }
 
 //    @Override
@@ -227,9 +208,9 @@ public class Detection extends Overlay implements Cloneable, XMLPersistent {
      * @return true if load is successful.
      */
     @Override
-    public boolean loadFromXML(Node node) {
+    public boolean loadFromXML(final Node node) {
 
-        Element detectionElement = (Element) node;
+        final Element detectionElement = (Element) node;
 
         x = XMLUtil.getAttributeDoubleValue(detectionElement, "x", 0);
         y = XMLUtil.getAttributeDoubleValue(detectionElement, "y", 0);
@@ -246,9 +227,9 @@ public class Detection extends Overlay implements Cloneable, XMLPersistent {
      * @return true if save is successful.
      */
     @Override
-    public boolean saveToXML(Node node) {
+    public boolean saveToXML(final Node node) {
 
-        Element detectionElement = (Element) node;
+        final Element detectionElement = (Element) node;
 
         XMLUtil.setAttributeDoubleValue(detectionElement, "x", x);
         XMLUtil.setAttributeDoubleValue(detectionElement, "y", y);
@@ -265,7 +246,7 @@ public class Detection extends Overlay implements Cloneable, XMLPersistent {
     }
 
     // Inspired from the ROI Persistance mechanism
-    public static Detection createDetection(String className) {
+    public static Detection createDetection(final String className) {
         Detection result = null;
 
         try {
@@ -280,7 +261,8 @@ public class Detection extends Overlay implements Cloneable, XMLPersistent {
                 result = constructor.newInstance();
 
             }
-        } catch (Exception e) {
+        }
+        catch (final Exception e) {
             System.err.println("********* TrackManager.createDetection('" + className + "', ...) error :");
             IcyExceptionHandler.showErrorMessage(e, false);
             System.err.println("The object is maybe not compatible (should have a default constructor with no arguments and extends Detection)");

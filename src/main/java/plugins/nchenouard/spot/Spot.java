@@ -1,3 +1,21 @@
+/*
+ * Copyright (c) 2010-2023. Institut Pasteur.
+ *
+ * This file is part of Icy.
+ * Icy is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Icy is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Icy. If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package plugins.nchenouard.spot;
 
 import java.io.PrintStream;
@@ -13,7 +31,7 @@ public class Spot {
     public double meanIntensity;
 
     /**
-     * List of point of the detection
+     * List of detection points
      */
     public ArrayList<Point3D> point3DList = new ArrayList<>();
 
@@ -21,18 +39,18 @@ public class Spot {
         mass_center = new Point3D();
     }
 
-    public Spot(double x, double y, double z) {
+    public Spot(final double x, final double y, final double z) {
         mass_center = new Point3D(x, y, z);
     }
 
-    public Spot(double x, double y, double z, double minIntensity, double maxIntensity, double meanIntensity) {
+    public Spot(final double x, final double y, final double z, final double minIntensity, final double maxIntensity, final double meanIntensity) {
         mass_center = new Point3D(x, y, z);
         this.minIntensity = minIntensity;
         this.maxIntensity = maxIntensity;
         this.meanIntensity = meanIntensity;
     }
 
-    public Spot(double x, double y, double z, double minIntensity, double maxIntensity, double meanIntensity, ArrayList<Point3D> point3DList) {
+    public Spot(final double x, final double y, final double z, final double minIntensity, final double maxIntensity, final double meanIntensity, final ArrayList<Point3D> point3DList) {
         mass_center = new Point3D(x, y, z);
         this.minIntensity = minIntensity;
         this.maxIntensity = maxIntensity;
@@ -45,15 +63,16 @@ public class Spot {
             String[] tmpTab = line.split("\\[");
             tmpTab = tmpTab[1].split("]");
             line = tmpTab[0];
-            String[] coordinates = line.split(",", 3);
+            final String[] coordinates = line.split(",", 3);
             if (coordinates.length > 2) {
-                NumberFormat nf = NumberFormat.getInstance();
-                Spot s = new Spot();
+                final NumberFormat nf = NumberFormat.getInstance();
+                final Spot s = new Spot();
                 try {
                     s.mass_center.x = nf.parse(coordinates[0]).intValue();
                     s.mass_center.y = nf.parse(coordinates[1]).intValue();
                     s.mass_center.z = nf.parse(coordinates[2]).intValue();
-                } catch (ParseException e) {
+                }
+                catch (final ParseException e) {
                     e.printStackTrace();
                     return null;
                 }
@@ -63,7 +82,7 @@ public class Spot {
         return null;
     }
 
-    public void save(PrintStream printOut, int num) {
+    public void save(final PrintStream printOut, final int num) {
         printOut.print("detection{" + num + "} = [");
         printOut.print(mass_center.x + ",");
         printOut.print(mass_center.y + ",");
