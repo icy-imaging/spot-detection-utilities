@@ -18,11 +18,11 @@
 
 package plugins.nchenouard.spot;
 
-import icy.file.xml.XMLPersistent;
-import icy.painter.Overlay;
-import icy.system.IcyExceptionHandler;
-import icy.util.ClassUtil;
-import icy.util.XMLUtil;
+import org.bioimageanalysis.icy.common.reflect.ClassUtil;
+import org.bioimageanalysis.icy.io.xml.XMLPersistent;
+import org.bioimageanalysis.icy.io.xml.XMLUtil;
+import org.bioimageanalysis.icy.model.overlay.Overlay;
+import org.bioimageanalysis.icy.system.IcyExceptionHandler;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 

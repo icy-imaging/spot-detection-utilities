@@ -18,6 +18,8 @@
 
 package plugins.nchenouard.spot;
 
+import org.bioimageanalysis.icy.system.IcyExceptionHandler;
+
 import java.io.PrintStream;
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -73,7 +75,7 @@ public class Spot {
                     s.mass_center.z = nf.parse(coordinates[2]).intValue();
                 }
                 catch (final ParseException e) {
-                    e.printStackTrace();
+                    IcyExceptionHandler.showErrorMessage(e, true);
                     return null;
                 }
                 return s;
@@ -87,5 +89,15 @@ public class Spot {
         printOut.print(mass_center.x + ",");
         printOut.print(mass_center.y + ",");
         printOut.print(mass_center.z + "];");
+    }
+
+    @Override
+    public String toString() {
+        return "Spot{" + "mass_center=" + mass_center +
+                ", minIntensity=" + minIntensity +
+                ", maxIntensity=" + maxIntensity +
+                ", meanIntensity=" + meanIntensity +
+                ", point3DList=" + point3DList +
+                '}';
     }
 }

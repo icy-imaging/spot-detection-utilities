@@ -18,8 +18,9 @@
 
 package plugins.nchenouard.spot;
 
-import icy.plugin.abstract_.Plugin;
-import icy.sequence.Sequence;
+import org.bioimageanalysis.icy.extension.plugin.abstract_.Plugin;
+import org.bioimageanalysis.icy.extension.plugin.annotation_.IcyPluginName;
+import org.bioimageanalysis.icy.model.sequence.Sequence;
 
 import java.util.TreeMap;
 import java.util.Vector;
@@ -30,7 +31,7 @@ import java.util.Vector;
  *
  * @author nicolas chenouard and Fabrice de Chaumont
  */
-
+@IcyPluginName("Detection Result")
 public class DetectionResult extends Plugin {
     private final TreeMap<Integer, Vector<Spot>> results;
     private Sequence sourceSequence;
