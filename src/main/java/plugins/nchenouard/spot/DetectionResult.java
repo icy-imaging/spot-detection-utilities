@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2023. Institut Pasteur.
+ * Copyright (c) 2010-2024. Institut Pasteur.
  *
  * This file is part of Icy.
  * Icy is free software: you can redistribute it and/or modify
@@ -24,7 +24,6 @@ import org.bioimageanalysis.icy.model.sequence.Sequence;
 
 import java.util.TreeMap;
 import java.util.Vector;
-
 
 /**
  * A class to manage detection results
@@ -76,11 +75,11 @@ public class DetectionResult extends Plugin {
         this.sourceSequence = seq;
     }
 
-    @Override
+    /*@Override
     protected void finalize() throws Throwable {
         results.clear();
         super.finalize();
-    }
+    }*/
 
     public DetectionResult() {
         results = new TreeMap<>();

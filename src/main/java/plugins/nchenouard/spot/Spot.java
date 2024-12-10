@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2023. Institut Pasteur.
+ * Copyright (c) 2010-2024. Institut Pasteur.
  *
  * This file is part of Icy.
  * Icy is free software: you can redistribute it and/or modify
@@ -18,7 +18,9 @@
 
 package plugins.nchenouard.spot;
 
-import org.bioimageanalysis.icy.system.IcyExceptionHandler;
+import org.bioimageanalysis.icy.system.logging.IcyLogger;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.PrintStream;
 import java.text.NumberFormat;
@@ -26,7 +28,6 @@ import java.text.ParseException;
 import java.util.ArrayList;
 
 public class Spot {
-
     public Point3D mass_center;
     public double minIntensity;
     public double maxIntensity;
@@ -60,7 +61,7 @@ public class Spot {
         this.point3DList = new ArrayList<>(point3DList);
     }
 
-    public static Spot load(String line) {
+    public static @Nullable Spot load(@NotNull String line) {
         if (line.startsWith("detection")) {
             String[] tmpTab = line.split("\\[");
             tmpTab = tmpTab[1].split("]");
@@ -75,7 +76,7 @@ public class Spot {
                     s.mass_center.z = nf.parse(coordinates[2]).intValue();
                 }
                 catch (final ParseException e) {
-                    IcyExceptionHandler.showErrorMessage(e, true);
+                    IcyLogger.error(Spot.class, e);
                     return null;
                 }
                 return s;
@@ -84,7 +85,7 @@ public class Spot {
         return null;
     }
 
-    public void save(final PrintStream printOut, final int num) {
+    public void save(final @NotNull PrintStream printOut, final int num) {
         printOut.print("detection{" + num + "} = [");
         printOut.print(mass_center.x + ",");
         printOut.print(mass_center.y + ",");

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2023. Institut Pasteur.
+ * Copyright (c) 2010-2024. Institut Pasteur.
  *
  * This file is part of Icy.
  * Icy is free software: you can redistribute it and/or modify
@@ -22,7 +22,7 @@ import org.bioimageanalysis.icy.common.reflect.ClassUtil;
 import org.bioimageanalysis.icy.io.xml.XMLPersistent;
 import org.bioimageanalysis.icy.io.xml.XMLUtil;
 import org.bioimageanalysis.icy.model.overlay.Overlay;
-import org.bioimageanalysis.icy.system.IcyExceptionHandler;
+import org.bioimageanalysis.icy.system.logging.IcyLogger;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
@@ -36,10 +36,8 @@ import java.lang.reflect.Constructor;
  */
 
 public class Detection extends Overlay implements Cloneable, XMLPersistent {
-
     @Override
     public Object clone() throws CloneNotSupportedException {
-
         final Detection clone = (Detection) super.clone();
 
         clone.x = x;
@@ -53,7 +51,6 @@ public class Detection extends Overlay implements Cloneable, XMLPersistent {
         clone.originalColor = new Color(originalColor.getRGB());
 
         return clone;
-
     }
 
     /**
@@ -209,7 +206,6 @@ public class Detection extends Overlay implements Cloneable, XMLPersistent {
      */
     @Override
     public boolean loadFromXML(final Node node) {
-
         final Element detectionElement = (Element) node;
 
         x = XMLUtil.getAttributeDoubleValue(detectionElement, "x", 0);
@@ -228,7 +224,6 @@ public class Detection extends Overlay implements Cloneable, XMLPersistent {
      */
     @Override
     public boolean saveToXML(final Node node) {
-
         final Element detectionElement = (Element) node;
 
         XMLUtil.setAttributeDoubleValue(detectionElement, "x", x);
@@ -263,27 +258,18 @@ public class Detection extends Overlay implements Cloneable, XMLPersistent {
             }
         }
         catch (final Exception e) {
-            System.err.println("********* TrackManager.createDetection('" + className + "', ...) error :");
-            IcyExceptionHandler.showErrorMessage(e, false);
-            System.err.println("The object is maybe not compatible (should have a default constructor with no arguments and extends Detection)");
-            System.err.println("Loading as a the default Detection object.");
+            IcyLogger.error(
+                    Detection.class,
+                    e,
+                    "TrackManager.createDetection('" + className + "', ...)",
+                    "The object is maybe not compatible (should have a default constructor with no arguments and extends Detection)"
+            );
 
+            IcyLogger.warn(Detection.class, "Loading as the default Detection object.");
             // Load as a default detection.
-
             result = new Detection();
-
         }
 
         return result;
     }
-
 }
-
-
-
-
-
-
-
-
-
