@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2024. Institut Pasteur.
+ * Copyright (c) 2010-2026. Institut Pasteur.
  *
  * This file is part of Icy.
  * Icy is free software: you can redistribute it and/or modify
@@ -28,7 +28,8 @@ import java.util.Vector;
 /**
  * A class to manage detection results
  *
- * @author nicolas chenouard and Fabrice de Chaumont
+ * @author Nicolas Chenouard
+ * @author Fabrice de Chaumont
  */
 @IcyPluginName("Detection Result")
 public class DetectionResult extends Plugin {
