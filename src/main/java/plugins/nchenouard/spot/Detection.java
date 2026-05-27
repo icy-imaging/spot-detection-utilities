@@ -18,11 +18,11 @@
 
 package plugins.nchenouard.spot;
 
-import org.bioimageanalysis.icy.common.reflect.ClassUtil;
-import org.bioimageanalysis.icy.io.xml.XMLPersistent;
-import org.bioimageanalysis.icy.io.xml.XMLUtil;
-import org.bioimageanalysis.icy.model.overlay.Overlay;
-import org.bioimageanalysis.icy.system.logging.IcyLogger;
+import fr.icy.common.reflect.ClassUtil;
+import fr.icy.io.xml.XMLPersistent;
+import fr.icy.io.xml.XMLUtil;
+import fr.icy.model.overlay.Overlay;
+import fr.icy.system.logging.IcyLogger;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
