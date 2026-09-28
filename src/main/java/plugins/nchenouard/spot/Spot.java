@@ -18,7 +18,6 @@
 
 package plugins.nchenouard.spot;
 
-import fr.icy.system.logging.IcyLogger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -26,8 +25,12 @@ import java.io.PrintStream;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Spot {
+    private static final Logger LOGGER = Logger.getLogger(Spot.class.getName());
+
     public Point3D mass_center;
     public double minIntensity;
     public double maxIntensity;
@@ -76,7 +79,8 @@ public class Spot {
                     s.mass_center.z = nf.parse(coordinates[2]).intValue();
                 }
                 catch (final ParseException e) {
-                    IcyLogger.error(Spot.class, e);
+                    if (LOGGER.isLoggable(Level.SEVERE))
+                        LOGGER.log(Level.SEVERE, "Error parsing coordinates.", e);
                     return null;
                 }
                 return s;

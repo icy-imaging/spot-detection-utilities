@@ -22,12 +22,13 @@ import fr.icy.common.reflect.ClassUtil;
 import fr.icy.io.xml.XMLPersistent;
 import fr.icy.io.xml.XMLUtil;
 import fr.icy.model.overlay.Overlay;
-import fr.icy.system.logging.IcyLogger;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 import java.awt.*;
 import java.lang.reflect.Constructor;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Detection is the basic detection class. Extends Detection to create more complete Detection.
@@ -36,6 +37,8 @@ import java.lang.reflect.Constructor;
  */
 
 public class Detection extends Overlay implements Cloneable, XMLPersistent {
+    private static final Logger LOGGER = Logger.getLogger(Detection.class.getName());
+
     @Override
     public Object clone() throws CloneNotSupportedException {
         final Detection clone = (Detection) super.clone();
@@ -258,14 +261,8 @@ public class Detection extends Overlay implements Cloneable, XMLPersistent {
             }
         }
         catch (final Exception e) {
-            IcyLogger.error(
-                    Detection.class,
-                    e,
-                    "TrackManager.createDetection('" + className + "', ...)",
-                    "The object is maybe not compatible (should have a default constructor with no arguments and extends Detection)"
-            );
-
-            IcyLogger.warn(Detection.class, "Loading as the default Detection object.");
+            if (LOGGER.isLoggable(Level.SEVERE))
+                LOGGER.log(Level.SEVERE, "Error loading detection object.", e);
             // Load as a default detection.
             result = new Detection();
         }
